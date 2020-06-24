@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Livros</title>
+<link href="css/estilo.css" rel="stylesheet">
+<link href="css/estiloform.css" rel="stylesheet">
+</head>
+<body>
+
+<div>
+<form th:action="@{/save}" method="post" th:object="${livro}">
+
+Título:
+<input type="text" th:field="*{titulo}"><br>
+
+Descrição:
+<input type="text" th:field="*{descricao}"><br>
+
+Ano:
+<input type="number" th:field="*{ano}"><br>
+
+Preço:
+<input type="number" th:field="*{preco}"><br>
+
+Gênero:
+<select th:field="*{genero}">
+<option th:each="genero : ${generos}" th:text="${genero.nome}" th:value=${genero.id}></option>
+</select><br>
+
+Editora:<select th:field="*{editora}">
+<option th:each="editora : ${editoras}" th:text="${editora.nome}" th:value=${editora.id}></option>
+</select><br>
+
+Autor:
+<select th:field="*{autor}" multiple >
+<option th:each="autor : ${autor}" th:text="${autor.nome}" th:value=${autor.id} ></option>
+</select><br>
+
+
+<input type="hidden" th:field="*{id}">
+<input type="submit" value="Salvar">
+
+
+</form>
+</div>
+
+<br/>
+<div>
+<h1>Lista de Livros</h1>
+<table id="customers">
+<tr>
+<th>Título</th>
+<th>Descrição</th>
+<th>Ano</th>
+<th>Preço</th>
+<th>Gênero</th>
+<th>Editora</th>
+<th>Autor</th>
+</tr>
+<tr th:each="livro : ${lista}" >
+<td align="center" th:text="${livro.titulo}"></td>
+<td align="center" th:text="${livro.descricao}"></td>
+<td align="center" th:text="${livro.ano}"></td>
+<td align="center" th:text="${livro.preco}"></td>
+<td th:text="${livro.genero} != null ?  ${livro.genero.nome} : null"></td>         
+<td th:text="${livro.editora} != null ?  ${livro.editora.nome} : null"></td>      
+<td th:each = "autor : ${livro.nomesAutores}" th:text="${autor.nome}" ></td>
+<td align="center"><a th:href= "@{'/update/' + ${livro.id}}"><img width="20px" height="20px" th:src="@{/img/alterar.png}"></a></td>
+<td align="center"><a th:href= "@{'/delete/' + ${livro.id}}"><img width="20px" height="20px" th:src="@{/img/excluir.png}"></a></td>
+</tr>
+</table>
+</div>
+</body>
+</html>
